@@ -2,14 +2,7 @@ import sys
 
 class KaleInterp:
 
-	'''
-	TODO
-
-	- Write self.if_call
-		- solve problems related self.if_call
-		- specifically, the .next in said call
-	'''
-
+	
 	def __init__(self):
 
 		#self.keywords is a dictionary of keywords and function calls
