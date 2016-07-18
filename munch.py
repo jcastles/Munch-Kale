@@ -100,6 +100,13 @@ class KaleInterp:
 		# evaluates the statement and acts on it
 		if self.operation_eval(conditional_statement, True):
 			self.read_key_words(result_statement)
+			
+		# TEST
+			print('true value')
+
+		else:
+			print('false value')
+		# END TEST
 
 	# the 'apostrophe' argument is because the method is multi use
 	def operation_eval(self, operation, apostrophe):
@@ -114,21 +121,6 @@ class KaleInterp:
 						break
 			else:
 				eval_buffer += ' ' + self.insert_apostrophe(item, apostrophe)
-
-
-
-
-		# TEST
-		eval_buffer = eval_buffer.split()
-		for character in range(len(eval_buffer)):
-			if eval_buffer[character] == '/':
-				eval_buffer[character] == '//'
-		eval_buffer = ''.join(eval_buffer)
-		# END TEST
-
-
-
-
 		return eval(eval_buffer)
 
 	def input(self, split_line):
