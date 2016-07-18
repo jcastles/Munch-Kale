@@ -114,20 +114,6 @@ class KaleInterp:
 			else:
 				eval_buffer += ' ' + self.insert_apostrophe(item, apostrophe)
 
-
-
-
-		# TEST
-		eval_buffer = eval_buffer.split()
-		for character in range(len(eval_buffer)):
-			if eval_buffer[character] == '/':
-				eval_buffer[character] == '//'
-		eval_buffer = ''.join(eval_buffer)
-		# END TEST
-
-
-
-
 		return eval(eval_buffer)
 
 	def input(self, split_line):
