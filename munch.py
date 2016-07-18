@@ -3,8 +3,7 @@ import sys
 class KaleInterp:
 
 	'''
-	TODO
-
+	TO
 	- Write self.if_call
 		- solve problems related self.if_call
 		- specifically, the .next in said call
