@@ -7,6 +7,7 @@ class KaleInterp:
 	- Write self.if_call
 		- solve problems related self.if_call
 		- specifically, the .next in said call
+
 	'''
 
 	def __init__(self):
@@ -100,6 +101,13 @@ class KaleInterp:
 		if self.operation_eval(conditional_statement, True):
 			self.read_key_words(result_statement)
 
+		# TEST
+			print('true value')
+
+		else:
+			print('false value')
+		# END TEST
+
 	# the 'apostrophe' argument is because the method is multi use
 	def operation_eval(self, operation, apostrophe):
 	# evaluates the operational value and returns a simplified True or False
@@ -113,7 +121,6 @@ class KaleInterp:
 						break
 			else:
 				eval_buffer += ' ' + self.insert_apostrophe(item, apostrophe)
-
 		return eval(eval_buffer)
 
 	def input(self, split_line):
