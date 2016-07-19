@@ -49,3 +49,11 @@ has already been declared, redeclare it. The syntax is:
 input: var: TYPE: variable_name = Prompt_Here:
 
 Where TYPE: is either int: str: or another variable type.
+
+Math statements:
+begin with keyword 'math: ' followed by variable syntax for an integer.
+The variable should be equal to an equation --
+
+math: var: int: _equation = 5 + 5
+
+integer variables can be used in the statement.
