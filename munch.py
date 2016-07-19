@@ -87,7 +87,6 @@ class KaleInterp:
 	def if_call(self, whole_line):
 		conditional_statement = []  # this is the conditional to evaluate
 		result_statement = []  # this holds what the statement does
-		# result_index = 0
 		for x in range(len(whole_line)):
 			if whole_line[x + 1] == '->':
 				result_index = x + 2  # this is where the product begins
@@ -99,14 +98,7 @@ class KaleInterp:
 
 		# evaluates the statement and acts on it
 		if self.operation_eval(conditional_statement, True):
-			# TEST
-			print('true value')
-			# END TEST
 			self.read_key_words(result_statement)
-		# TEST
-		else:
-			print('false value')
-		# END TEST
 
 	# the 'apostrophe' argument is because the method is multi use
 	def operation_eval(self, operation, apostrophe):
@@ -116,15 +108,11 @@ class KaleInterp:
 			if item[0] == '_':
 				for var_name in self.kale_variables:
 					if item == var_name:
-
 						eval_buffer += ' ' + str(
 								self.insert_apostrophe(self.kale_variables[var_name], apostrophe))
 						break
 			else:
 				eval_buffer += ' ' + self.insert_apostrophe(item, apostrophe)
-		# TEST
-		print(eval_buffer)
-		# END TEST
 		return eval(eval_buffer)
 
 	def input(self, split_line):
@@ -151,24 +139,16 @@ class KaleInterp:
 	# this takes the apostrophe argument because not everything this is called
 	# on actually needs this stuff
 	def insert_apostrophe(self, word, apostrophe):
-
-
 		if apostrophe:
 			try:
 				int(word)
-
-
 				return word
 			except ValueError:
 				if word != True and word != False and word != 'not' and word != 'and' and word != 'or' and word != '==':
-
-
 					return '\'' + word.strip() + '\''
-
-				# TEST
+				# this is in case the operator is '=='
 				else:
 					return word
-				# END TEST
 		else:
 			return word
 
