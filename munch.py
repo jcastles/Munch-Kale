@@ -144,7 +144,8 @@ class KaleInterp:
 				int(word)
 				return word
 			except ValueError:
-				if word != True and word != False and word != 'not' and word != 'and' and word != 'or' and word != '==':
+				if word != True and word != False and word != 'not' and \
+								word != 'and' and word != 'or' and word != '==':
 					return '\'' + word.strip() + '\''
 				# this is in case the operator is '=='
 				else:
