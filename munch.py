@@ -99,11 +99,11 @@ class KaleInterp:
 
 		# evaluates the statement and acts on it
 		if self.operation_eval(conditional_statement, True):
-			self.read_key_words(result_statement)
-
-		# TEST
+			# TEST
 			print('true value')
-
+			# END TEST
+			self.read_key_words(result_statement)
+		# TEST
 		else:
 			print('false value')
 		# END TEST
@@ -116,11 +116,15 @@ class KaleInterp:
 			if item[0] == '_':
 				for var_name in self.kale_variables:
 					if item == var_name:
+
 						eval_buffer += ' ' + str(
 								self.insert_apostrophe(self.kale_variables[var_name], apostrophe))
 						break
 			else:
 				eval_buffer += ' ' + self.insert_apostrophe(item, apostrophe)
+		# TEST
+		print(eval_buffer)
+		# END TEST
 		return eval(eval_buffer)
 
 	def input(self, split_line):
@@ -147,16 +151,26 @@ class KaleInterp:
 	# this takes the apostrophe argument because not everything this is called
 	# on actually needs this stuff
 	def insert_apostrophe(self, word, apostrophe):
+
+
 		if apostrophe:
 			try:
 				int(word)
+
+
 				return word
 			except ValueError:
-				if word != True and word != False and word != 'not' and word != 'and' and word != 'or':
-					return '\'' + word + '\''
+				if word != True and word != False and word != 'not' and word != 'and' and word != 'or' and word != '==':
+
+
+					return '\'' + word.strip() + '\''
+
+				# TEST
+				else:
+					return word
+				# END TEST
 		else:
 			return word
-
 
 
 KaleInterp()
