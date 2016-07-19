@@ -1,0 +1,13 @@
+input: var: int: _numOne = Enter first number:
+input: var: str: _operand = /,*,+,-:
+input: var: int: _numTwo = Enter second number:
+
+write: _numOne
+write: _operand
+write: _numTwo
+
+if: _operand == + -> math: var: int: _result = _numOne + _numTwo
+if: _operand == - -> math: var: int: _result = _numOne - _numTwo
+if: _operand == * -> math: var: int: _result = _numOne * _numTwo
+if: _operand == / -> math: var: int: _result = _numOne / _numTwo
+write: _result 
