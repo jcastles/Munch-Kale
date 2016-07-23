@@ -7,7 +7,7 @@ class KaleInterp:
 		#self.keywords is a dictionary of keywords and function calls
 		self.keywords = {'write:' : self.write, 'var:' : self.variable,
 								'if:' : self.if_call, 'input:' : self.input,
-								'math:' : self.math}
+								'math:' : self.math, 'while:' : self.while_loop}
 
 		self.kale_variables = {}  # holds the variables from the kale program
 		self.open_file = open(sys.argv[1], encoding='utf-8')
@@ -63,7 +63,16 @@ class KaleInterp:
 
 	# determines and returns the proper python type for each variable
 	def int_obj(self, current_line):
-		return int(current_line[4])
+		try:
+			return int(current_line[4])
+		except TypeError:
+			math_statement = current_line[1:]
+			return self.math(math_statement)
+		except ValueError:
+			if current_line[4][0] == '_':
+				for var in self.kale_variables:
+					if var == current_line[4]:
+						return self.kale_variables[var]
 
 	# determines and returns the proper python type for each variable
 	# gets all of the string
@@ -144,6 +153,15 @@ class KaleInterp:
 					return word
 		else:
 			return word
+
+	def while_loop(self, split_line):
+		# this reads in the file looking for the while statement
+		for line in self.open_file:
+			execute_state = line.split()  # turns the line into an array for iter
+			print(execute_state)
+			self.read_key_words(execute_state)
+
+
 
 
 KaleInterp()

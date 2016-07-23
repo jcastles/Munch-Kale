@@ -1,13 +1,13 @@
-input: var: int: _numOne = Enter first number:
-input: var: str: _operand = /,*,+,-:
-input: var: int: _numTwo = Enter second number:
+write: FILE IS RUNNING
 
-write: _numOne
-write: _operand
-write: _numTwo
+var: int: _counter = 0
 
-if: _operand == + -> math: var: int: _result = _numOne + _numTwo
-if: _operand == - -> math: var: int: _result = _numOne - _numTwo
-if: _operand == * -> math: var: int: _result = _numOne * _numTwo
-if: _operand == / -> math: var: int: _result = _numOne / _numTwo
-write: _result 
+write: _counter
+
+while: _counter < 20 ->
+math: var: int: _tmp = _counter + 1
+var: int: _counter = _tmp
+write: _counter
+END
+
+write: _counter
