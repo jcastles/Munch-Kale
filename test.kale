@@ -1,13 +1,6 @@
 write: FILE IS RUNNING
 
-var: int: _counter = 0
-
-write: _counter
-
-for: 30 ->
-math: var: int: _tmp = _counter + 1
-var: int: _counter = _tmp
-write: _counter
-END
-
-write: _counter
+for: 20 ->
+write: Hello aworld
+write: second line
+END:

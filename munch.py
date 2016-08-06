@@ -1,9 +1,9 @@
 #############################################################
 #
 # TODO:
-#   make the content of for loops write to tmp.txt
-#   for iteration
-#       *located at end of file*
+#   self.read_loop_file works, sort of. marked 'Under production'
+#       It works if you run the same program twice; it needs
+#       two copies of the instructions to operate for some reason
 #
 #############################################################
 
@@ -14,6 +14,8 @@ import os
 class KaleInterp:
 
     def __init__(self):
+
+        self.for_bool = False  # tells file_reader whether or not it should writeout loops
 
         #self.keywords is a dictionary of keywords and function calls
         self.keywords = {'write:' : self.write, 'var:' : self.variable,
@@ -29,7 +31,14 @@ class KaleInterp:
     def file_reader(self):
         for line in self.open_file:
             split_line = line.split()  # turns the line into an array for iter
-            self.read_key_words(split_line)
+            if not self.for_bool:  # if this is satisfied, a standard call is made i.e. no loop
+                self.read_key_words(split_line)
+            else:  # this is where looping info begins
+                if split_line[0] == 'END:':  # breaks out of loop and resets for_bool
+                    self.for_bool = False
+                else:  # this writes instructions for the loop into a separate file which will be deleted
+                    with open('.tmp.txt', 'a', encoding='utf-8') as loop_file:
+                        loop_file.write(line)
 
     def read_key_words(self, split_line):
         for key in self.keywords:  # iterate through self.keywords
@@ -166,15 +175,17 @@ class KaleInterp:
             return word
 
     def for_loop(self, split_line):
-        os.system('touch tmp.txt')
-        # open the file for writing the loop instructions
-        with open('tmp.txt', mode='a', encoding='utf-8') as loop_file:
-            # somehow, from here the the lines between for: and END need to be 
-            # written to tmp.txt, then tmp.txt needs to be looped over for range for: X
-            # where X is some integer value
-            #
-            # tmp.txt then needs to be deleted
+        os.system('touch .tmp.txt')
+        self.for_bool = True  # sets flag so next lines get written to .tmp.txt
+        self.read_loop_file(split_line)
 
-
+    # Under production
+    def read_loop_file(self, split_line):
+        count = int(split_line[1])  # the range for the kale loop
+        for _ in range(count):  # controls how many time loop happens
+            with open('.tmp.txt', 'r', encoding='utf-8') as loop_file:  # opens .tmp.txt file that was written earlier
+                for line in loop_file:  # reads the file itself
+                    self.read_key_words(line.split())  # executes lines in the file
 
 KaleInterp()
+
