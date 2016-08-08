@@ -1,6 +1,11 @@
 write: FILE IS RUNNING
 
-for: 20 ->
-write: Hello aworld
-write: second line
+write: math!
+
+var: int: _one = 0
+
+for: 100 ->
+math: var: int: _tmp = _one + 1
+var: int: _one = _tmp
+write: _one
 END:

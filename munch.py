@@ -36,6 +36,7 @@ class KaleInterp:
             else:  # this is where looping info begins
                 if split_line[0] == 'END:':  # breaks out of loop and resets for_bool
                     self.for_bool = False
+                    self.read_loop_file(self.for_init_line)
                 else:  # this writes instructions for the loop into a separate file which will be deleted
                     with open('.tmp.txt', 'a', encoding='utf-8') as loop_file:
                         loop_file.write(line)
@@ -178,14 +179,15 @@ class KaleInterp:
     def for_loop(self, split_line):
         os.system('touch .tmp.txt')
         self.for_bool = True  # sets flag so next lines get written to .tmp.txt
-        self.read_loop_file(split_line)
+        self.for_init_line = split_line
 
     # Under production
     def read_loop_file(self, split_line):
         count = int(split_line[1])  # the range for the kale loop
-        loop_file = open('.tmp.txt', encoding='utf-8')
         for _ in range(count):  # controls how many time loop happens
-           self.file_reader(loop_file)
+            loop_file = open('.tmp.txt', encoding = 'utf-8')
+            self.file_reader(loop_file)
+        os.system('rm .tmp.txt')
 
 KaleInterp()
 
