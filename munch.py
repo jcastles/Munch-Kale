@@ -23,13 +23,13 @@ class KaleInterp:
                                                         'math:' : self.math, 'for:' : self.for_loop}
 
         self.kale_variables = {}  # holds the variables from the kale program
-        self.open_file = open(sys.argv[1], encoding='utf-8')
+        open_file = open(sys.argv[1], encoding='utf-8')
 
         # all variable must be declared above this method call
-        self.file_reader()
+        self.file_reader(open_file)
 
-    def file_reader(self):
-        for line in self.open_file:
+    def file_reader(self, kale_file):
+        for line in kale_file:
             split_line = line.split()  # turns the line into an array for iter
             if not self.for_bool:  # if this is satisfied, a standard call is made i.e. no loop
                 self.read_key_words(split_line)
@@ -39,6 +39,7 @@ class KaleInterp:
                 else:  # this writes instructions for the loop into a separate file which will be deleted
                     with open('.tmp.txt', 'a', encoding='utf-8') as loop_file:
                         loop_file.write(line)
+        kale_file.close()
 
     def read_key_words(self, split_line):
         for key in self.keywords:  # iterate through self.keywords
@@ -182,10 +183,9 @@ class KaleInterp:
     # Under production
     def read_loop_file(self, split_line):
         count = int(split_line[1])  # the range for the kale loop
+        loop_file = open('.tmp.txt', encoding='utf-8')
         for _ in range(count):  # controls how many time loop happens
-            with open('.tmp.txt', 'r', encoding='utf-8') as loop_file:  # opens .tmp.txt file that was written earlier
-                for line in loop_file:  # reads the file itself
-                    self.read_key_words(line.split())  # executes lines in the file
+           self.file_reader(loop_file)
 
 KaleInterp()
 
