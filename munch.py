@@ -1,9 +1,6 @@
 #############################################################
 #
 # TODO:
-#   self.read_loop_file works, sort of. marked 'Under production'
-#       It works if you run the same program twice; it needs
-#       two copies of the instructions to operate for some reason
 #
 #############################################################
 
@@ -181,7 +178,6 @@ class KaleInterp:
         self.for_bool = True  # sets flag so next lines get written to .tmp.txt
         self.for_init_line = split_line
 
-    # Under production
     def read_loop_file(self, split_line):
         count = int(split_line[1])  # the range for the kale loop
         for _ in range(count):  # controls how many time loop happens
