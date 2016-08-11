@@ -1,6 +1,7 @@
 #############################################################
 #
 # TODO:
+#   write while loop logic
 #
 #############################################################
 
@@ -13,6 +14,7 @@ class KaleInterp:
     def __init__(self):
 
         self.for_bool = False  # tells file_reader whether or not it should writeout loops
+        self.while_bool = False # same as for_bool but for while loops
 
         #self.keywords is a dictionary of keywords and function calls
         self.keywords = {'write:' : self.write, 'var:' : self.variable,
@@ -28,15 +30,13 @@ class KaleInterp:
     def file_reader(self, kale_file):
         for line in kale_file:
             split_line = line.split()  # turns the line into an array for iter
-            if not self.for_bool:  # if this is satisfied, a standard call is made i.e. no loop
+            if not self.for_bool and not self.while_bool:  # if this is satisfied, a standard call is made i.e. no loop
                 self.read_key_words(split_line)
-            else:  # this is where looping info begins
-                if split_line[0] == 'END:':  # breaks out of loop and resets for_bool
-                    self.for_bool = False
-                    self.read_loop_file(self.for_init_line)
-                else:  # this writes instructions for the loop into a separate file which will be deleted
-                    with open('.tmp.txt', 'a', encoding='utf-8') as loop_file:
-                        loop_file.write(line)
+            elif self.for_bool:  # this is where looping info begins
+                self.write_loop_files('END:', '.tmp.txt', split_line, line)
+            elif self.while_bool:
+                self.write_loop_files('END_LOOP:', '.tmp_while.txt', split_line, line)
+
         kale_file.close()
 
     def read_key_words(self, split_line):
@@ -184,6 +184,23 @@ class KaleInterp:
             loop_file = open('.tmp.txt', encoding = 'utf-8')
             self.file_reader(loop_file)
         os.system('rm .tmp.txt')
+    
+    def while_loop(self, split_line):
+        os.system('touch .tmp_while.txt')
+        self.while_bool = True  # flag to trigger files to be written
+        self.while_init_line = split_line
+
+    def write_loop_files(self, end_word, file_name, split_line, line):
+        if split_line[0] == end_word:  # breaks out of loop and resets for_bool
+            if end_word == 'END:':
+                self.for_bool = False
+                self.read_loop_file(self.for_init_line)
+            elif end_word == 'END_LOOP:':
+                self.while_bool = False
+        else:  # this writes instructions for the loop into a separate file which will be deleted
+            with open(file_name, 'a', encoding='utf-8') as loop_file:
+                loop_file.write(line)
+
 
 KaleInterp()
 
