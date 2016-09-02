@@ -1,3 +1,3 @@
-var: int: _one = 1
-if: _one < 15 -> write: true
+write: RUNNING
 
+if: True -> write: true
