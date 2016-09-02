@@ -1,3 +1,3 @@
 write: RUNNING
 
-if: True -> write: true
+if: 5 > 3 -> write: TRUE
