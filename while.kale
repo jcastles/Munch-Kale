@@ -3,10 +3,9 @@ write: FILE IS RUNNING
 var: bool: _boolean = True
 var: int: _one = 0
 
-while: _boolean ->
+while: _one < 15 ->
 math: var: int: _tmp = _one + 1
 var: int: _one = _tmp
 write: _one
-if: _one > 15 -> var: bool: _boolean = False
 END_LOOP:
 

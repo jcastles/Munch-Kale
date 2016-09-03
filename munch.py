@@ -1,7 +1,6 @@
 #############################################################
 #
 # TODO:
-#   write while loop logic
 #
 #############################################################
 
@@ -19,7 +18,8 @@ class KaleInterp:
         #self.keywords is a dictionary of keywords and function calls
         self.keywords = {'write:' : self.write, 'var:' : self.variable,
                                                         'if:' : self.if_call, 'input:' : self.input,
-                                                        'math:' : self.math, 'for:' : self.for_loop}
+                                                        'math:' : self.math, 'for:' : self.for_loop,
+                                                        'while:' : self.while_loop}
 
         self.kale_variables = {}  # holds the variables from the kale program
         open_file = open(sys.argv[1], encoding='utf-8')
@@ -128,8 +128,7 @@ class KaleInterp:
             if item[0] == '_':
                 for var_name in self.kale_variables:
                     if item == var_name:
-                        eval_buffer += ' ' + str(
-                                        self.insert_apostrophe(self.kale_variables[var_name], apostrophe))
+                        eval_buffer += ' ' + str(self.insert_apostrophe(self.kale_variables[var_name], apostrophe))
                         break
             else:
                 eval_buffer += ' ' + self.insert_apostrophe(item, apostrophe)
@@ -184,6 +183,20 @@ class KaleInterp:
             loop_file = open('.tmp.txt', encoding = 'utf-8')
             self.file_reader(loop_file)
         os.system('rm .tmp.txt')
+
+    def read_while_file(self, split_line):
+        con_statement = []
+        for item in split_line:
+            if item != 'while:' and item != '->':
+                con_statement.append(item)
+        while True:
+            if self.operation_eval(con_statement, True) is True:
+                pass
+            else:
+                break
+            while_loop_file = open('.tmp_while.txt', encoding = 'utf-8')
+            self.file_reader(while_loop_file)
+            
     
     def while_loop(self, split_line):
         os.system('touch .tmp_while.txt')
@@ -197,6 +210,7 @@ class KaleInterp:
                 self.read_loop_file(self.for_init_line)
             elif end_word == 'END_LOOP:':
                 self.while_bool = False
+                self.read_while_file(self.while_init_line)
         else:  # this writes instructions for the loop into a separate file which will be deleted
             with open(file_name, 'a', encoding='utf-8') as loop_file:
                 loop_file.write(line)
