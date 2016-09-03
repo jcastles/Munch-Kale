@@ -26,7 +26,7 @@ follow the syntax
 if: conditional_here -> operation_performed_if_true
 
 Conditionals are space delineated; logical operators are 'and', 'or', 'not',
-without the parentheses.
+without the apostrophes.
 
   if: 5 + 3 == 8 -> write: This evaluated to 'True'
 
@@ -48,7 +48,7 @@ has already been declared, redeclare it. The syntax is:
 
 input: var: TYPE: variable_name = Prompt_Here:
 
-Where TYPE: is either int: str: or another variable type.
+Where TYPE: is either int: str: or bool:.
 
 Math statements:
 begin with keyword 'math: ' followed by variable syntax for an integer.
@@ -57,3 +57,23 @@ The variable should be equal to an equation --
 math: var: int: _equation = 5 + 5
 
 integer variables can be used in the statement.
+operations include:
++	-	*	/	** (raises number to power i.e. 5 ** 2 = 25; 3 ** 3 = 27)
+
+LOOPS
+
+
+for loops --
+
+	for: 10 ->
+	code block here
+	END:
+for loops only accept integer arguments; they can be variables though.
+
+while loops --
+
+	while: boolean evaluation ->
+	code block
+	END_LOOP:
+while loops accept arguments that evaluate to either true or false
+in the place marked 'boolean evaluation'.
