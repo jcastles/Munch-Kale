@@ -187,16 +187,19 @@ class KaleInterp:
     def read_while_file(self, split_line):
         con_statement = []
         for item in split_line:
-            if item != 'while:' and item != '->':
+            if item != 'while:' and item != '->':  # writes and evals conditional
                 con_statement.append(item)
         while True:
+            # this if serves to break the loop if condition becomes false
+            # in the kale file
             if self.operation_eval(con_statement, True) is True:
                 pass
             else:
                 break
+            # read and execute tmp file
             while_loop_file = open('.tmp_while.txt', encoding = 'utf-8')
             self.file_reader(while_loop_file)
-            
+        os.system('rm .tmp_while.txt')  # remove the tmp file
     
     def while_loop(self, split_line):
         os.system('touch .tmp_while.txt')
