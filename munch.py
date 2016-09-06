@@ -23,13 +23,10 @@ class KaleInterp:
                                                         'while:' : self.while_loop}
 
         self.kale_variables = {}  # holds the variables from the kale program
-        try:
-            open_file = open(sys.argv[1], encoding='utf-8')
+        open_file = open(sys.argv[1], encoding='utf-8')
 
-            # all variable must be declared above this method call
-            self.file_reader(open_file)
-        except:
-            print('You must call the interpreter on a file.')
+        # all variable must be declared above this method call
+        self.file_reader(open_file)
 
     def file_reader(self, kale_file):
         for line in kale_file:
@@ -116,9 +113,7 @@ class KaleInterp:
                 result_index = x + 2  # this is where the product begins
                 break
             conditional_statement.append(whole_line[x + 1])
-        while result_index < len(whole_line):
-            result_statement.append(whole_line[result_index])
-            result_index += 1
+        result_statement.append(whole_line[result_index:])
 
         # evaluates the statement and acts on it
         if self.operation_eval(conditional_statement, True):
@@ -167,7 +162,7 @@ class KaleInterp:
                 int(word)
                 return word
             except ValueError:
-                python_key_word = [True, False, 'not', 'and', 'or', '==', '<', '>', '<=','>=']
+                python_key_word = [True, False, 'not', 'and', 'or', '==', '<', '>', '<=', '>=', '!=']
                 if word not in python_key_word:
                     return '\'' + word.strip() + '\''
                 # this is in case the operator is '=='
