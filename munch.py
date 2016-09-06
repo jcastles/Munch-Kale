@@ -113,7 +113,10 @@ class KaleInterp:
                 result_index = x + 2  # this is where the product begins
                 break
             conditional_statement.append(whole_line[x + 1])
-        result_statement.append(whole_line[result_index:])
+        # should append the result_statement, I think
+        while result_index < len(whole_line):
+            result_statement.append(whole_line[result_index])
+            result_index += 1
 
         # evaluates the statement and acts on it
         if self.operation_eval(conditional_statement, True):
