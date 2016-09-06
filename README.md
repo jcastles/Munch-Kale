@@ -8,3 +8,4 @@ programs can be run from the command line with
 if you make the interpreter executable. Otherwise, Python 3.X
 should work (i.e. `python3 munch.py FILENAME.kale`); specifically,
 the interpreter was written and tested with python 3.5.
+Another option is to add it to your .bashrc alias.

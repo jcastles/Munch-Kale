@@ -23,10 +23,13 @@ class KaleInterp:
                                                         'while:' : self.while_loop}
 
         self.kale_variables = {}  # holds the variables from the kale program
-        open_file = open(sys.argv[1], encoding='utf-8')
+        try:
+            open_file = open(sys.argv[1], encoding='utf-8')
 
-        # all variable must be declared above this method call
-        self.file_reader(open_file)
+            # all variable must be declared above this method call
+            self.file_reader(open_file)
+        except:
+            print('You must call the interpreter on a file.')
 
     def file_reader(self, kale_file):
         for line in kale_file:
@@ -218,7 +221,6 @@ class KaleInterp:
         else:  # this writes instructions for the loop into a separate file which will be deleted
             with open(file_name, 'a', encoding='utf-8') as loop_file:
                 loop_file.write(line)
-
 
 KaleInterp()
 
