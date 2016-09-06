@@ -1,4 +1,0 @@
-input: var: int: _num = 
-math: var: int: _sqr = _num ** 2
-write: _sqr
-
