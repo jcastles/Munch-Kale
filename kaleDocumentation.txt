@@ -1,10 +1,15 @@
+| KALE | Documentation.txt
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 Writing to Console:
+****************************************************************************
 write: your string goes here
 
 string variables can be written directly into the string
 no escape characters are necessary
 
+****************************************************************************
 Variables:
+****************************************************************************
 All variable declarations are proceeded by the keyword var:, then followed by
 type -- int:, bool:, or str:. Then the variable name is declared. They are always
 proceeded by an underscore.
@@ -19,7 +24,9 @@ proceeded by an underscore.
 
   Strings:
     var: str: _variableName = String here
-
+****************************************************************************
+Conditions:
+****************************************************************************
 If statements:
 follow the syntax
 
@@ -41,8 +48,9 @@ Variables may be written into both the condition and operation of a statement.
 If statements may be nested; in other words, the operation_performed_if_true
 may be another if statement.
 
-
-Taking input:
+****************************************************************************
+User Input:
+****************************************************************************
 input is always stored in an explicitly declared variable; if the variable
 has already been declared, redeclare it. The syntax is:
 
@@ -50,7 +58,9 @@ input: var: TYPE: variable_name = Prompt_Here:
 
 Where TYPE: is either int: str: or bool:.
 
+****************************************************************************
 Math statements:
+****************************************************************************
 begin with keyword 'math: ' followed by variable syntax for an integer.
 The variable should be equal to an equation --
 
@@ -60,8 +70,9 @@ integer variables can be used in the statement.
 operations include:
 +	-	*	/	** (raises number to power i.e. 5 ** 2 = 25; 3 ** 3 = 27)
 
-LOOPS
-
+****************************************************************************
+Loops:
+****************************************************************************
 
 for loops --
 
@@ -77,3 +88,7 @@ while loops --
 	END_LOOP:
 while loops accept arguments that evaluate to either true or false
 in the place marked 'boolean evaluation'.
+****************************************************************************
+                                       Created by: Clayton McCray
+
+
