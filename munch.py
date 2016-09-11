@@ -23,13 +23,10 @@ class KaleInterp:
                                                         'while:' : self.while_loop}
 
         self.kale_variables = {}  # holds the variables from the kale program
-        try:
-            open_file = open(sys.argv[1], encoding='utf-8')
+        open_file = open(sys.argv[1], encoding='utf-8')
 
-            # all variable must be declared above this method call
-            self.file_reader(open_file)
-        except:
-            print('ERROR')
+        # all variable must be declared above this method call
+        self.file_reader(open_file)
 
     def file_reader(self, kale_file):
         for line in kale_file:
@@ -168,7 +165,7 @@ class KaleInterp:
                 int(word)
                 return word
             except ValueError:
-                python_key_word = [True, False, 'not', 'and', 'or', '==', '<', '>', '<=', '>=', '!=']
+                python_key_word = [True, False, 'not', 'and', 'or', '==', '<', '>', '<=', '>=', '!=', 'True', 'False']
                 if word not in python_key_word:
                     return '\'' + word.strip() + '\''
                 # this is in case the operator is '=='
@@ -178,7 +175,7 @@ class KaleInterp:
             return word
 
     def for_loop(self, split_line):
-        os.system('touch .tmp.txt')
+        open('.tmp.txt', 'w').close()
         self.for_bool = True  # sets flag so next lines get written to .tmp.txt
         self.for_init_line = split_line
 
@@ -187,7 +184,7 @@ class KaleInterp:
         for _ in range(count):  # controls how many time loop happens
             loop_file = open('.tmp.txt', encoding = 'utf-8')
             self.file_reader(loop_file)
-        os.system('rm .tmp.txt')
+        os.remove('.tmp.txt')
 
     def read_while_file(self, split_line):
         con_statement = []
@@ -204,10 +201,10 @@ class KaleInterp:
             # read and execute tmp file
             while_loop_file = open('.tmp_while.txt', encoding = 'utf-8')
             self.file_reader(while_loop_file)
-        os.system('rm .tmp_while.txt')  # remove the tmp file
+        os.remove('.tmp_while.txt')  # remove the tmp file
     
     def while_loop(self, split_line):
-        os.system('touch .tmp_while.txt')
+        open('.tmp_while.txt', 'w').close()
         self.while_bool = True  # flag to trigger files to be written
         self.while_init_line = split_line
 
@@ -223,5 +220,29 @@ class KaleInterp:
             with open(file_name, 'a', encoding='utf-8') as loop_file:
                 loop_file.write(line)
 
-KaleInterp()
+
+class Cleanup:
+    
+    def __init__(self):
+        self.clean()
+
+    def clean(self):
+        try:
+            os.remove('.tmp_while.txt')
+            print('clean...')
+        except FileNotFoundError:
+            print('clean...')
+        try:
+            os.remove('.tmp.txt')
+            print('clean...')
+        except FileNotFoundError:
+            print('clean...')
+
+try:
+    if '.kale' in sys.argv[1]:
+        KaleInterp()
+    elif sys.argv[1] == 'clean':
+        Cleanup()
+except IndexError:
+    print('ERROR: Include kalefile or give argument.')
 
