@@ -88,7 +88,19 @@ while loops --
 	END_LOOP:
 while loops accept arguments that evaluate to either true or false
 in the place marked 'boolean evaluation'.
-****************************************************************************
-                                       Created by: Clayton McCray
 
+****************************************************************************
+clean
+****************************************************************************
+The munch interpreter creates temporary files to do things like run loops.
+This works well, but if there is a keyboard interrupt while a loop is running,
+you can end up having dotfiles stored in your working directory. While these
+ought not impact performance, if you notice loops performing oddly, you can try
+
+./munch.py clean
+
+which will clean up loose files that the interpreter is known to create. Note that
+'./munch.py' is simply the statement you use to execute the interpreter.
+***************************************************************************
+                                       Created by: Clayton McCray
 
