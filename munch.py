@@ -8,6 +8,7 @@
 
 import sys
 import os
+from re import sub
 
 class KaleInterp:
 
@@ -222,7 +223,6 @@ class KaleInterp:
 
 
 class Cleanup:
-    
     def __init__(self):
         self.clean()
 
@@ -238,11 +238,39 @@ class Cleanup:
         except FileNotFoundError:
             print('clean...')
 
+
+# class Refactor is the first addition that is ultimately designed to 
+# turn the munch interpreter into a suite of system management tools
+class Refactor:
+    try:
+        original_file_name = sys.argv[2] 
+        regex_pattern = sys.argv[3]
+        new_phrase = sys.argv[4]
+    except IndexError:
+        print('Error: must pass arguments \nfile_name old_phrase new_phrase')
+        sys.exit()
+    with open(original_file_name + '.backup', 'w') as backup:  # creates the backup file
+        # below, we begin to write out the backup file
+        with open(original_file_name, 'r') as original:
+            for line in original:
+                backup.write(line)
+
+    # below rewrites the original file from backup.txt
+    # but using the sub method to replace given word
+    with open(original_file_name + '.backup', 'r') as backup:  # 'r' protects the file from being deleted
+        with open(original_file_name, 'w') as rewrite:  # 'w' ensures that the file will be overwritten
+            for line in backup:
+                new_line = sub(regex_pattern, new_phrase, line)
+                rewrite.write(new_line)
+
+
 try:
     if '.kale' in sys.argv[1]:
         KaleInterp()
     elif sys.argv[1] == 'clean':
         Cleanup()
+    elif sys.argv[1] == '-r':
+        Refactor()
 except IndexError:
     print('ERROR: Include kalefile or give argument.')
 
