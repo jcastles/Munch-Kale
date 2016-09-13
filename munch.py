@@ -242,35 +242,46 @@ class Cleanup:
 # class Refactor is the first addition that is ultimately designed to 
 # turn the munch interpreter into a suite of system management tools
 class Refactor:
-    try:
-        original_file_name = sys.argv[2] 
-        regex_pattern = sys.argv[3]
-        new_phrase = sys.argv[4]
-    except IndexError:
-        print('Error: must pass arguments \nfile_name old_phrase new_phrase')
-        sys.exit()
-    with open(original_file_name + '.backup', 'w') as backup:  # creates the backup file
-        # below, we begin to write out the backup file
-        with open(original_file_name, 'r') as original:
-            for line in original:
-                backup.write(line)
+    def __init__(self):
+        try:
+            original_file_name = sys.argv[2] 
+            regex_pattern = sys.argv[3]
+            new_phrase = sys.argv[4]
+        except IndexError:
+            print('Error: must pass arguments \nfile_name old_phrase new_phrase')
+            sys.exit()
+        with open(original_file_name + '.backup', 'w') as backup:  # creates the backup file
+            # below, we begin to write out the backup file
+            with open(original_file_name, 'r') as original:
+                for line in original:
+                    backup.write(line)
 
-    # below rewrites the original file from backup.txt
-    # but using the sub method to replace given word
-    with open(original_file_name + '.backup', 'r') as backup:  # 'r' protects the file from being deleted
-        with open(original_file_name, 'w') as rewrite:  # 'w' ensures that the file will be overwritten
-            for line in backup:
-                new_line = sub(regex_pattern, new_phrase, line)
-                rewrite.write(new_line)
+        # below rewrites the original file from backup.txt
+        # but using the sub method to replace given word
+        with open(original_file_name + '.backup', 'r') as backup:  # 'r' protects the file from being deleted
+            with open(original_file_name, 'w') as rewrite:  # 'w' ensures that the file will be overwritten
+                for line in backup:
+                    new_line = sub(regex_pattern, new_phrase, line)
+                    rewrite.write(new_line)
+
+class HelpPage():
+    def __init__(self):
+        print('\nERROR: You must give the interpreter arguments.\n')
+        print('Execute kalefile\t\tmunch file_name.kale')
+        print('-c\t\t\t\tClean up residual files munch occasionally makes')
+        print('-h\t\t\t\tDisplay this help page')
+        print('-r\t\t\t\tTo refactor a file: munch -r file_name old_phrase new_phrase')
 
 
 try:
     if '.kale' in sys.argv[1]:
         KaleInterp()
-    elif sys.argv[1] == 'clean':
+    elif sys.argv[1] == '-c':
         Cleanup()
     elif sys.argv[1] == '-r':
         Refactor()
+    elif sys.argv[1] == '-h':
+        HelpPage()
 except IndexError:
-    print('ERROR: Include kalefile or give argument.')
+    HelpPage()
 

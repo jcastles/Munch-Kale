@@ -4,6 +4,9 @@
 The keyword 'munch' will be used to represent whatever the user must type
 to invoke the munch interpreter.
 -----------------
+For help,
+`munch -h`
+-----------------
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 Writing to Console:
 ****************************************************************************
@@ -102,7 +105,7 @@ This works well, but if there is a keyboard interrupt while a loop is running,
 you can end up having dotfiles stored in your working directory. While these
 ought not impact performance, if you notice loops performing oddly, you can try
 
-`munch clean`
+`munch -c`
 
 which will clean up loose files that the interpreter is known to create.
 
