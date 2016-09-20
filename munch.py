@@ -266,7 +266,11 @@ class Refactor:
 
 class HelpPage():
     def __init__(self):
-        print('\nERROR: You must give the interpreter arguments.\n')
+        try:
+            if sys.argv[1] == '-h':
+                print('\n')
+        except IndexError:
+            print('\nERROR: must pass arguments\n')
         print('Execute kalefile\t\tmunch file_name.kale')
         print('-c\t\t\t\tClean up residual files munch occasionally makes')
         print('-h\t\t\t\tDisplay this help page')
