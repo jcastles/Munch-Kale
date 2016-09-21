@@ -9,6 +9,9 @@
 import sys
 import os
 from re import sub
+import smtplib
+from email.mime.text import MIMEText
+
 
 class KaleInterp:
 
@@ -277,6 +280,49 @@ class HelpPage():
         print('-r\t\t\t\tTo refactor a file: munch -r file_name old_phrase new_phrase')
 
 
+# smtplib stands for Simple Mail Transfer Protocol Library
+# MIMEText I think converts the string values into usable text for the email
+# gi.repository is the repository that holds the GUI stuff
+class SendMail():
+
+    def __init__(self):
+        self.make_message()
+        self.usr_email = input('Sender email: ')
+        self.password = input('Password: ')
+        self.rec_email = input('Send to: ')
+        self.subject = input('Subject: ')
+        print('From: ' + self.usr_email)
+        print('To: ' + self.rec_email)
+        print('Subject: ' + self.subject)
+        print(self.message)
+        if input('\n\nSend? y/n: ') == 'y':
+            self.send_email(self.message, self.subject, self.usr_email, self.rec_email, self.usr_email, self.password)
+
+    def make_message(self):
+        e_file = sys.argv[2]
+        self.message = ''
+        with open(e_file, 'r') as f:
+            for line in f:
+               self.message += line
+
+    def send_email(self, message_entry, subject, from_addr, to_addr, log_em, em_pass):
+        # Gtk.Entry.get_text(self.message_entry)
+        message = MIMEText(message_entry)
+        message['Subject'] = subject
+        message['From'] = from_addr
+        message['To'] = to_addr
+
+        # So the port number needs to be an integer, not a string value
+        s = smtplib.SMTP('smtp.gmail.com', 587)
+        s.ehlo()
+        s.starttls()
+        # I added this s.login line based on some googling, but nothing extensive
+        s.login(log_em, em_pass)
+        s.send_message(message)
+
+        s.quit()
+
+
 try:
     if '.kale' in sys.argv[1]:
         KaleInterp()
@@ -286,6 +332,8 @@ try:
         Refactor()
     elif sys.argv[1] == '-h':
         HelpPage()
+    elif sys.argv[1] == '-e':
+        SendMail()
 except IndexError:
     HelpPage()
 
