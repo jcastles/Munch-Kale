@@ -11,6 +11,7 @@ import os
 from re import sub
 import smtplib
 from email.mime.text import MIMEText
+from getpass import getpass
 
 
 class KaleInterp:
@@ -288,7 +289,7 @@ class SendMail():
     def __init__(self):
         self.make_message()
         self.usr_email = input('Sender email: ')
-        self.password = input('Password: ')
+        self.password = getpass('Password: ')
         self.rec_email = input('Send to: ')
         self.subject = input('Subject: ')
         print('From: ' + self.usr_email)
