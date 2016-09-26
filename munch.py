@@ -292,9 +292,6 @@ class SendMail():
         self.password = getpass('Password: ')
         self.rec_email = input('Send to: ')
         self.subject = input('Subject: ')
-        print('From: ' + self.usr_email)
-        print('To: ' + self.rec_email)
-        print('Subject: ' + self.subject)
         print(self.message)
         if input('\n\nSend? y/n: ') == 'y':
             self.send_email(self.message, self.subject, self.usr_email, self.rec_email, self.usr_email, self.password)
