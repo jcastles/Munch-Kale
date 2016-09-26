@@ -277,6 +277,7 @@ class HelpPage():
             print('\nERROR: must pass arguments\n')
         print('Execute kalefile\t\tmunch file_name.kale')
         print('-c\t\t\t\tClean up residual files munch occasionally makes')
+        print('-e\t\t\t\tSend email from the terminal (use text editor): -e email_body_file')
         print('-h\t\t\t\tDisplay this help page')
         print('-r\t\t\t\tTo refactor a file: munch -r file_name old_phrase new_phrase')
 
