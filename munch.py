@@ -8,6 +8,11 @@
 
 import sys
 import os
+from re import sub
+import smtplib
+from email.mime.text import MIMEText
+from getpass import getpass
+
 
 class KaleInterp:
 
@@ -222,7 +227,6 @@ class KaleInterp:
 
 
 class Cleanup:
-    
     def __init__(self):
         self.clean()
 
@@ -238,11 +242,97 @@ class Cleanup:
         except FileNotFoundError:
             print('clean...')
 
+
+# class Refactor is the first addition that is ultimately designed to 
+# turn the munch interpreter into a suite of system management tools
+class Refactor:
+    def __init__(self):
+        try:
+            original_file_name = sys.argv[2] 
+            regex_pattern = sys.argv[3]
+            new_phrase = sys.argv[4]
+        except IndexError:
+            print('Error: must pass arguments \nfile_name old_phrase new_phrase')
+            sys.exit()
+        with open(original_file_name + '.backup', 'w') as backup:  # creates the backup file
+            # below, we begin to write out the backup file
+            with open(original_file_name, 'r') as original:
+                for line in original:
+                    backup.write(line)
+
+        # below rewrites the original file from backup.txt
+        # but using the sub method to replace given word
+        with open(original_file_name + '.backup', 'r') as backup:  # 'r' protects the file from being deleted
+            with open(original_file_name, 'w') as rewrite:  # 'w' ensures that the file will be overwritten
+                for line in backup:
+                    new_line = sub(regex_pattern, new_phrase, line)
+                    rewrite.write(new_line)
+
+class HelpPage():
+    def __init__(self):
+        try:
+            if sys.argv[1] == '-h':
+                print('\n')
+        except IndexError:
+            print('\nERROR: must pass arguments\n')
+        print('Execute kalefile\t\tmunch file_name.kale')
+        print('-c\t\t\t\tClean up residual files munch occasionally makes')
+        print('-e\t\t\t\tSend email from the terminal (use text editor): -e email_body_file')
+        print('-h\t\t\t\tDisplay this help page')
+        print('-r\t\t\t\tTo refactor a file: munch -r file_name old_phrase new_phrase')
+
+
+# smtplib stands for Simple Mail Transfer Protocol Library
+# MIMEText I think converts the string values into usable text for the email
+# gi.repository is the repository that holds the GUI stuff
+class SendMail():
+
+    def __init__(self):
+        self.make_message()
+        self.usr_email = input('Sender email: ')
+        self.password = getpass('Password: ')
+        self.rec_email = input('Send to: ')
+        self.subject = input('Subject: ')
+        print(self.message)
+        if input('\n\nSend? y/n: ') == 'y':
+            self.send_email(self.message, self.subject, self.usr_email, self.rec_email, self.usr_email, self.password)
+
+    def make_message(self):
+        e_file = sys.argv[2]
+        self.message = ''
+        with open(e_file, 'r') as f:
+            for line in f:
+               self.message += line
+
+    def send_email(self, message_entry, subject, from_addr, to_addr, log_em, em_pass):
+        # Gtk.Entry.get_text(self.message_entry)
+        message = MIMEText(message_entry)
+        message['Subject'] = subject
+        message['From'] = from_addr
+        message['To'] = to_addr
+
+        # So the port number needs to be an integer, not a string value
+        s = smtplib.SMTP('smtp.gmail.com', 587)
+        s.ehlo()
+        s.starttls()
+        # I added this s.login line based on some googling, but nothing extensive
+        s.login(log_em, em_pass)
+        s.send_message(message)
+
+        s.quit()
+
+
 try:
     if '.kale' in sys.argv[1]:
         KaleInterp()
-    elif sys.argv[1] == 'clean':
+    elif sys.argv[1] == '-c':
         Cleanup()
+    elif sys.argv[1] == '-r':
+        Refactor()
+    elif sys.argv[1] == '-h':
+        HelpPage()
+    elif sys.argv[1] == '-e':
+        SendMail()
 except IndexError:
-    print('ERROR: Include kalefile or give argument.')
+    HelpPage()
 
